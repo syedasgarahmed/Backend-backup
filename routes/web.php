@@ -31,7 +31,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/airline/details/{id}', [AdminController::class, 'getAirlineDetails']);
     Route::get('/bookings', [AdminController::class, 'showBookings'])->name('admin.showBookings');
     Route::get('/get-bookings', [AdminController::class, 'getBookings'])->name('admin.getBookings');
-    Route::get('/airline/details/{id}', [AdminController::class, 'getBookingDetails']);
+    // Route::get('/airline/details/{id}', [AdminController::class, 'getBookingDetails']);
+    Route::get('/booking/details/{id}', [AdminController::class, 'getBookingDetails']);
+
 });
 
 
@@ -41,3 +43,4 @@ Route::get('/book-flight', [BookingController::class, 'showBookingForm'])->name(
 Route::get('/get-booking-offices', [BookingController::class, 'getBookingOffices'])->name('user.getBookingOffices');
 Route::get('/get-flights', [BookingController::class, 'getFlights'])->name('user.getFlights');
 Route::get('/check-availability/{flightId}/{class}', [BookingController::class, 'checkAvailability']);
+Route::get('/get-cities', [BookingController::class, 'getCities'])->name('user.getCities');

@@ -34,7 +34,8 @@ class BookingController extends Controller
             'flight_id' => 'required|exists:flights,id',
             'booking_office_id' => 'required|exists:bookingoffices,id',
             'departure_datetime' => 'required|date',
-            'arrival_datetime' => 'required|date|after:departure_datetime',
+            'from_city_id' => 'required|integer|different:to_city_id',
+            'to_city_id' => 'required|integer',
             'class_indicator' => 'required|in:business,economy',
             'total_price' => 'required|numeric|min:0',
             'amount_paid' => 'required|numeric|min:0',
@@ -85,7 +86,8 @@ class BookingController extends Controller
             'booking_date' => Carbon::now(),
             'flight_id' => $request->flight_id,
             'departure_datetime' => $request->departure_datetime,
-            'arrival_datetime' => $request->arrival_datetime,
+            'from_location_id' => $request->from_city_id,
+            'to_location_id' => $request->to_city_id,
             'class_indicator' => $request->class_indicator,
             'total_price' => $request->total_price,
             'status_indicator' => 'booked',
@@ -101,6 +103,13 @@ class BookingController extends Controller
         ]);
     }
 
+    // Fetch cities from the database
+    public function getCities()
+    {
+        $cities = City::all(); // Adjust to your table name if different
+        return response()->json($cities);
+    }
+
 
     public function getBookingOffices()
     {
@@ -110,7 +119,7 @@ class BookingController extends Controller
 
     public function getFlights()
     {
-        $flights = Flight::all(['id', 'flight_number']);
+        $flights = Flight::all(['id', 'flight_number', 'flight_name']);
         return response()->json($flights);
     }
 

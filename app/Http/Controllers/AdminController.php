@@ -93,12 +93,12 @@ class AdminController extends Controller
 
     public function getBookings(Request $request)
     {
-        $query = Booking::with(['originCity', 'destinationCity', 'user']); // Eager load relationships
-
+        $query = Booking::with(['originCity', 'destinationCity', 'customer']); // Eager load relationships
+// dd($query);
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('user', function ($row) {
-                return $row->user ? $row->user->first_name . ' ' . $row->user->last_name : 'Guest';
+                return $row->customer ? $row->customer->first_name . ' ' . $row->customer->last_name : 'Guest';
             })
             ->addColumn('flight_route', function ($row) {
                 $origin = $row->originCity ? $row->originCity->name : 'Unknown';
@@ -114,7 +114,7 @@ class AdminController extends Controller
 
     public function getBookingDetails($id)
     {
-        $booking = Booking::with(['originCity', 'destinationCity', 'user'])->findOrFail($id);
+        $booking = Booking::with(['originCity', 'destinationCity', 'customer'])->findOrFail($id);
         return response()->json($booking);
     }
 }

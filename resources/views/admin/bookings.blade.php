@@ -36,6 +36,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Booking Details Modal -->
+    <div class="modal fade" id="bookingDetailsModal" tabindex="-1" aria-labelledby="bookingDetailsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingDetailsModalLabel">Booking Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="bookingDetailsContent">Loading...</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -65,8 +84,8 @@
                         name: 'flight_route'
                     },
                     {
-                        data: 'status',
-                        name: 'status'
+                        data: 'status_indicator',
+                        name: 'status_indicator'
                     },
                     {
                         data: 'action',
@@ -87,10 +106,10 @@
                         var details = `
                 <p><strong>ID:</strong> ${data.id}</p>
                 <p><strong>Booking Number:</strong> ${data.booking_number}</p>
-                <p><strong>User:</strong> ${data.user ? data.user.first_name + ' ' + data.user.last_name : 'Guest'}</p>
+                <p><strong>User:</strong> ${data.customer ? data.customer.first_name + ' ' + data.customer.last_name : 'Guest'}</p>
                 <p><strong>Origin:</strong> ${data.origin_city ? data.origin_city.name : 'Unknown'}</p>
                 <p><strong>Destination:</strong> ${data.destination_city ? data.destination_city.name : 'Unknown'}</p>
-                <p><strong>Status:</strong> ${data.status}</p>
+                <p><strong>Status:</strong> ${data.status_indicator}</p>
             `;
                         $('#bookingDetailsContent').html(details);
                         $('#bookingDetailsModal').modal('show');
@@ -100,6 +119,12 @@
                     }
                 });
             });
+
+            // Close modal when clicking the 'Close' button or outside the modal
+            $('.close-modal-btn').click(function() {
+                $('#bookingDetailsModal').modal('hide');
+            });
+
         });
     </script>
 @endpush
